@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="gfandos.bicingbcn.Fragments.MapActivityFragment"
-    tools:showIn="@layout/activity_map">
+    tools:showIn="@layout/activity_map"
+    android:background="@android:color/background_dark">
 
 
         <org.osmdroid.views.MapView android:id="@+id/map"

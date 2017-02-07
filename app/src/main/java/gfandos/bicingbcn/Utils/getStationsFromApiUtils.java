@@ -32,7 +32,7 @@ public class getStationsFromApiUtils {
 
                 int id, occupation, bikes, slots;
                 double latitude, longitude;
-                String name, type;
+                String name, type, numStreet;
 
                 JSONObject object = jsonStations.getJSONObject(i);
 
@@ -43,10 +43,11 @@ public class getStationsFromApiUtils {
                 latitude = Double.valueOf(object.getString("latitude"));
                 longitude = Double.valueOf(object.getString("longitude"));
                 type = object.getString("type");
+                numStreet = object.getString("streetNumber");
 
                 occupation = getOcupation(slots, bikes);
 
-                Station s = new Station(id, name, latitude, longitude, type, occupation);
+                Station s = new Station(id, name, latitude, longitude, type, occupation, numStreet, bikes);
                 stations.add(s);
 
             }

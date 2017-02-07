@@ -12,14 +12,16 @@ public class Station {
     private double longitude;
     private String type;
     private int occupation; //%
+    private int bikes;
 
-    public Station(int id_, String name_, double latitude_, double longitude_, String type_, int occupation_) {
+    public Station(int id_, String name_, double latitude_, double longitude_, String type_, int occupation_, String numStreet_, int bikes_) {
         id = id_;
-        name = name_;
+        name = name_ + ", " + numStreet_ + "\n\n" + bikes_ + " bicicletes disponibles";
         latitude = latitude_;
         longitude = longitude_;
         type = type_;
         occupation = occupation_;
+        bikes = bikes_;
     }
 
     public int getId() {

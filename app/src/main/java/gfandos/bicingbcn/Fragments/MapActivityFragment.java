@@ -137,8 +137,47 @@ public class MapActivityFragment extends Fragment {
         String type = s.getType();
         int occupation = s.getOccupation();
 
-        if(type.compareTo("BIKE") == 0) marker.setIcon(getResources().getDrawable(R.drawable.marker_mecanic));
-        else marker.setIcon(getResources().getDrawable(R.drawable.marker_electric));
+        if(type.compareTo("BIKE") == 0) {
+
+            if (occupation >= 0) {
+                marker.setIcon(getResources().getDrawable(R.drawable.markermecanic));
+
+                if (occupation >= 25) {
+                    marker.setIcon(getResources().getDrawable(R.drawable.markermecanic25));
+
+                    if (occupation >= 50) {
+                        marker.setIcon(getResources().getDrawable(R.drawable.markermecanic50));
+
+                        if (occupation >= 75) {
+                            marker.setIcon(getResources().getDrawable(R.drawable.markermecanic75));
+
+                            if (occupation == 100)
+                                marker.setIcon(getResources().getDrawable(R.drawable.markermecanic100));
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            if (occupation >= 0) {
+                marker.setIcon(getResources().getDrawable(R.drawable.markerelectric));
+
+                if (occupation >= 25) {
+                    marker.setIcon(getResources().getDrawable(R.drawable.markerelectric25));
+
+                    if (occupation >= 50) {
+                        marker.setIcon(getResources().getDrawable(R.drawable.markerelectric50));
+
+                        if (occupation >= 75) {
+                            marker.setIcon(getResources().getDrawable(R.drawable.markerelectric75));
+
+                            if (occupation == 100)
+                                marker.setIcon(getResources().getDrawable(R.drawable.markerelectric100));
+                        }
+                    }
+                }
+            }
+        }
 
         return marker;
 

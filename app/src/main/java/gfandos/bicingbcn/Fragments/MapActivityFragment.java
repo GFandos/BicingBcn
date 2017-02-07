@@ -1,8 +1,12 @@
 package gfandos.bicingbcn.Fragments;
 
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +22,11 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+
+import gfandos.bicingbcn.Pojo.Station;
 import gfandos.bicingbcn.R;
+import gfandos.bicingbcn.Utils.getStationsFromApiUtils;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -26,6 +34,8 @@ import gfandos.bicingbcn.R;
 public class MapActivityFragment extends Fragment {
 
     private MapView map;
+    ArrayList<Station> stations;
+
     private MyLocationNewOverlay myLocationOverlay;
     private MinimapOverlay mMinimapOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
@@ -40,19 +50,63 @@ public class MapActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        MapView map = (MapView) view.findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
+        map = (MapView) view.findViewById(R.id.map);
 
-        GeoPoint startPoint = new GeoPoint(48.13, -1.63);
-        IMapController mapController = map.getController();
-        mapController.setZoom(9);
-        mapController.setCenter(startPoint);
+        initializeMap();
+        setZoom();
+
+        putMarkers();
 
         return view;
     }
 
+    private void putMarkers() {
+
+        setupMarkerOverlay();
+
+        RefreshAsyncTask refreshAsyncTask = new RefreshAsyncTask();
+
+        refreshAsyncTask.execute();
+
+    }
+
+    private void setupMarkerOverlay() {
+    }
+
+    private void setZoom() {
+
+        GeoPoint startPoint = new GeoPoint(41.3851, 2.1734);
+        IMapController mapController = map.getController();
+        mapController.setZoom(13);
+        mapController.setCenter(startPoint);
+
+    }
+
+    private void initializeMap() {
+
+        map.invalidate();
+
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setBuiltInZoomControls(true);
+        map.setMultiTouchControls(true);
+
+    }
+
+    private class RefreshAsyncTask extends AsyncTask<Void, Void, ArrayList<Station>> {
+
+        @Override
+        protected ArrayList<Station> doInBackground(Void... voids) {
+
+            stations = getStationsFromApiUtils.getStations();
+
+            for(int i = 0; i < stations.size(); ++i) {
+                Log.d("DEBUG", stations.get(i).toString());
+            }
+
+            return stations;
+        }
+
+    }
 
 
 }

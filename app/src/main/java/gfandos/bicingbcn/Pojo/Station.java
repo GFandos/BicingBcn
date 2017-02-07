@@ -6,16 +6,27 @@ package gfandos.bicingbcn.Pojo;
 
 public class Station {
 
-    private String id;
+    private int id;
     private String name;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
+    private String type;
+    private int occupation; //%
 
-    public String getId() {
+    public Station(int id_, String name_, double latitude_, double longitude_, String type_, int occupation_) {
+        id = id_;
+        name = name_;
+        latitude = latitude_;
+        longitude = longitude_;
+        type = type_;
+        occupation = occupation_;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -27,19 +38,47 @@ public class Station {
         this.name = name;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(int occupation) {
+        this.occupation = occupation;
+    }
+
+    @Override
+    public String toString() {
+        return "Station{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", type='" + type + '\'' +
+                ", occupation=" + occupation +
+                '}';
     }
 }

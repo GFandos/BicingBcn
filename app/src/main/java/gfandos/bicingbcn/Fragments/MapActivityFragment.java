@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
@@ -39,69 +40,19 @@ public class MapActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        map = (MapView) view.findViewById(R.id.map);
+        MapView map = (MapView) view.findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setBuiltInZoomControls(true);
+        map.setMultiTouchControls(true);
 
-        initializeMap();
-        setZoom();
-        setOverlays();
-
-        map.invalidate();
+        GeoPoint startPoint = new GeoPoint(48.13, -1.63);
+        IMapController mapController = map.getController();
+        mapController.setZoom(9);
+        mapController.setCenter(startPoint);
 
         return view;
     }
 
-    private void initializeMap() {
 
-        map.setTileSource(TileSourceFactory.MAPQUESTOSM);
-        map.setTilesScaledToDpi(true);
-
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-    }
-
-    private void setZoom() {
-        //  Setteamos el zoom al mismo nivel y ajustamos la posición a un geopunto
-        mapController = map.getController();
-        mapController.setZoom(15);
-    }
-
-    private void setOverlays() {
-        final DisplayMetrics dm = getResources().getDisplayMetrics();
-
-        myLocationOverlay = new MyLocationNewOverlay(
-                getContext(),
-                new GpsMyLocationProvider(getContext()),
-                map
-        );
-        myLocationOverlay.enableMyLocation();
-        myLocationOverlay.runOnFirstFix(new Runnable() {
-            public void run() {
-                mapController.animateTo( myLocationOverlay
-                        .getMyLocation());
-            }
-        });
-
-/*
-        mMinimapOverlay = new MinimapOverlay(getContext(), map.getTileRequestCompleteHandler());
-        mMinimapOverlay.setWidth(dm.widthPixels / 5);
-        mMinimapOverlay.setHeight(dm.heightPixels / 5);
-*/
-
-        mScaleBarOverlay = new ScaleBarOverlay(map);
-        mScaleBarOverlay.setCentred(true);
-        mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-
-        mCompassOverlay = new CompassOverlay(
-                getContext(),
-                new InternalCompassOrientationProvider(getContext()),
-                map
-        );
-        mCompassOverlay.enableCompass();
-
-        map.getOverlays().add(myLocationOverlay);
-        map.getOverlays().add(this.mMinimapOverlay);
-        map.getOverlays().add(this.mScaleBarOverlay);
-        map.getOverlays().add(this.mCompassOverlay);
-    }
 
 }
